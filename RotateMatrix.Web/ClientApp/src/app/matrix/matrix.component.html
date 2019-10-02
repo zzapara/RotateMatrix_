@@ -1,0 +1,46 @@
+<form [formGroup] = "matrixParameters" (ngSubmit) = "onSubmit()" autocomplete="off">
+  <div class="form-group">
+    <div class="row">
+      <div class="col-6">
+        <label for="rank">Ранг </label>
+      </div>
+      <div class="col-6 text-right">
+          {{rank }}
+      </div>
+    </div>
+    <input type="range" min="2" max="10" value="5" id="rank" class="form-control" formControlName ="rank">
+  </div> 
+  <div class="form-row">
+    <div class="form-group col-6">
+        <label for="minValue">Мінімальне значення елементів</label>
+        <input type="text" class="form-control" formControlName="minValue" id="minValue">
+    </div>
+    <div class="form-group col-6">
+        <label for="maxValue">Максимальне значення елементів</label>
+        <input type="text" class="form-control" formControlName="maxValue" id="maxValue">
+    </div>
+  </div>
+  <input type="submit" class="btn btn-primary" value="Згенерувати матрицю">
+</form>
+
+
+
+<div *ngIf="matrix && matrix.length > 0">
+  <div class="row mt-5">
+    <div class="col-6">
+      <input type="image" src="/assets/img/rotate-to-left.png" width="100" height="100" (click)="RotateLeft()">
+    </div>
+    <div class="col-md-6">
+      <div class="text-right">
+        <input type="image" src="/assets/img/rotate-to-right.png" width="100" height="100" (click)="RotateRight()">
+      </div>
+    </div>
+  </div>
+  <table class="table text-center">
+    <tbody>
+      <tr *ngFor="let row of matrix">
+          <td *ngFor="let element of row">{{element}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
