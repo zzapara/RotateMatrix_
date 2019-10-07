@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    background-color: gray;
+}
+div.main{
+    border-radius: 10px;
+    padding: 50px;
+    background-color:whitesmoke;
+}

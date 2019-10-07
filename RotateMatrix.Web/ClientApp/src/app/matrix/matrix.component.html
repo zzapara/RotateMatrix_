@@ -1,4 +1,5 @@
-<form [formGroup] = "matrixParameters" (ngSubmit) = "onSubmit()" autocomplete="off">
+<div class="main">
+  <form [formGroup] = "matrixParameters" (ngSubmit) = "onSubmit()" autocomplete="off" >
   <div class="form-group">
     <div class="row">
       <div class="col-6">
@@ -20,17 +21,28 @@
         <input type="text" class="form-control" formControlName="maxValue" id="maxValue">
     </div>
   </div>
-  <input type="submit" class="btn btn-primary" value="Згенерувати матрицю">
-</form>
+  <div class="form-row">
+    <div class="col-6 text-left">
+      <input type="submit" class="btn btn-secondary" value="Згенерувати матрицю">
+    </div>
+    <div class="col-6 text-right">
+      <input type="button" class="btn btn-secondary" onclick="document.getElementById('file').click();" value="Завантажити з файлу">
+      <input type="file" id="file" accept=".csv" style="display:none;" (change)='HandleFileInput($event.target.files)'>
+    </div>
+  </div>
+  </form>
 
-
-
-<div *ngIf="matrix && matrix.length > 0">
-  <div class="row mt-5">
-    <div class="col-6">
+ 
+  <div *ngIf="matrix && matrix.length > 0">
+  <hr>
+  <div class="row mt-2">
+    <div class="col-4">
       <input type="image" src="/assets/img/rotate-to-left.png" width="100" height="100" (click)="RotateLeft()">
     </div>
-    <div class="col-md-6">
+    <div class="col-4 text-center mt-5">
+        <button class="btn btn-secondary" (click)="SaveMatrixToFile()">Зберегти матрицю </button>      
+      </div>
+    <div class="col-md-4">
       <div class="text-right">
         <input type="image" src="/assets/img/rotate-to-right.png" width="100" height="100" (click)="RotateRight()">
       </div>
@@ -43,4 +55,6 @@
       </tr>
     </tbody>
   </table>
+  </div>
+
 </div>

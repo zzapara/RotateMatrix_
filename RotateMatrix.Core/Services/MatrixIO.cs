@@ -28,7 +28,8 @@ namespace RotateMatrix.Core.Services
                         string line = reader.ReadLine();
                         line.Replace(" ", string.Empty);
 
-                        var rowOfElementsStr = line.Split(separators);
+                        var rowOfElementsStr = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                        
 
                         if (matrix == null)
                         {
@@ -84,15 +85,14 @@ namespace RotateMatrix.Core.Services
             {
                 for (int indexElement = 0; indexElement < rank; indexElement++)
                 {
-                    stringBuilder.AppendJoin(';', matrix[indexRow, indexElement]);
+                    stringBuilder.Append(matrix[indexRow, indexElement] + ",");
                 }
-                stringBuilder.Remove(rank - 1, 1);
+                stringBuilder.Remove(stringBuilder.Length - 1, 1);
                 streamWriter.WriteLine(stringBuilder.ToString());
                 stringBuilder.Clear();
             }
-
             streamWriter.Flush();
-            streamWriter.Close();
+            memoryStream.Seek(0, SeekOrigin.Begin);
 
             return memoryStream;
         }

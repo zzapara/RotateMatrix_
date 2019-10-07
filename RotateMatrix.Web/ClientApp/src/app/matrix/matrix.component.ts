@@ -12,6 +12,7 @@ import { AppComponent} from '../app.component';
 export class MatrixComponent implements OnInit {
   matrixParameters: FormGroup;
   matrix: number[][];
+  fileToUpload: File = null;
 
   constructor(private matrixService: MatrixService, private fb: FormBuilder, private matrixDefaultParameters: MatrixDefaultParameters) {
   }
@@ -62,6 +63,35 @@ export class MatrixComponent implements OnInit {
     );
   }
 
+  HandleFileInput(files: FileList) {
+    if (files !== null && files !== undefined && files.length > 0){
+      this.fileToUpload = files.item(0);
+      this.matrixService.UploadFile(this.fileToUpload).subscribe(
+        res => this.matrix = res,
+        err => console.log(err)
+      );
+    }
+  }
+
+  SaveMatrixToFile() {
+    this.matrixService.SaveMatrixToFile(this.matrix).subscribe(
+      res => {
+        this.downloadFile(res, 'application/ms-excel', 'matrix.csv');
+      },
+      err => console.log(err)
+    );
+  }
+
+  private downloadFile(data: any, type: string, name: string) {
+    const blob = new Blob([data], {type});
+    const element = document.createElement('a');
+    element.href = window.URL.createObjectURL(blob);
+    element.download = name;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+ 
   onSubmit() {
     this.GenerateMatrix(this.rank, this.minVal, this.maxVal);
   }
@@ -113,5 +143,12 @@ export class MatrixComponent implements OnInit {
     if (minValue > maxValue) {
       fg.get('minValue').setValue(fg.get('maxValue').value);
     }
+  }
+
+  Test() {
+    this.matrixService.getTest().subscribe(
+      res => console.log(res),
+      err => console.log(err)
+    );
   }
 }

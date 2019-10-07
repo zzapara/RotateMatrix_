@@ -26,6 +26,7 @@ namespace RotateMatrix.Web
             services.AddTransient<IMatrixOperation,MatrixOperation>();
             services.AddTransient<IMatrixIO, MatrixCSV>();
 
+            services.AddCors();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -60,6 +61,7 @@ namespace RotateMatrix.Web
                     template: "{controller}/{action=Index}/{id?}");
             });
 
+           
             app.Use(async (context, next) =>
             {
                 // Do work that doesn't write to the Response.
@@ -68,6 +70,8 @@ namespace RotateMatrix.Web
                 // Do logging or other work that doesn't write to the Response.
             });
 
+            app.UseCors(build =>
+            build.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
@@ -80,6 +84,7 @@ namespace RotateMatrix.Web
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
 
             app.Run(async context =>
             {

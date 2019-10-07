@@ -41,12 +41,12 @@ namespace RotateMatrix.Web.Controllers
         }
 
         [HttpPost("[action]"), DisableRequestSizeLimit]
-        public ActionResult<int[,]> UploadFromFile()
+        public ActionResult<int[,]> UploadFromFile(List<IFormFile> formFile)
         {
             try
             {
                 var file = Request.Form.Files[0];
-
+               
                 if(file != null && file.Length > 0)
                 {
                     return matrixIO.Import(file.OpenReadStream());
@@ -61,12 +61,10 @@ namespace RotateMatrix.Web.Controllers
             }
         }
 
-        [HttpGet("[action]")]
-        public ActionResult SaveToFile(int[,] matrix)
+        [HttpPost("[action]")]
+        public ActionResult SaveToFile([FromBody]int[,] matrix)
         {
-            return File(matrixIO.Export(matrix), "application/csv", "matrix.csv");
+            return File((matrixIO.Export(matrix)), "application/text", "matrix.csv");
         }
-
-
     }
 }
